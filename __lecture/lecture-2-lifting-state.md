@@ -29,7 +29,7 @@ const App = () => {
 };
 
 const Header = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   return (
     <header>
@@ -48,6 +48,33 @@ const MainContent = () => {
   );
 };
 ```
+
+SOLUTION:
+
+const App = () => {
+const [searchTerm, setSearchTerm] = React.useState("");
+return (
+<>
+<Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+<MainContent setSearchTerm />
+</>
+);
+};
+const Header = ({ searchTerm, setSearchTerm }) => {
+return (
+<header>
+<Logo />
+<SearchInput value={searchTerm} onChange={setSearchTerm} />
+</header>
+);
+};
+const MainContent = ({ searchTerm }) => {
+return (
+<main>
+{/_ how do I access `searchTerm`? _/}
+Search results for {searchTerm}
+</main>
+);
 
 ---
 
@@ -68,7 +95,7 @@ const App = () => {
 };
 
 const Header = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   return (
     <header>
@@ -90,7 +117,7 @@ const MainContent = () => {
 
 ---
 
-<!-- 
+<!--
 # Exercise
 
 Lift state up
@@ -195,7 +222,7 @@ const SearchResults = () => {
     />
   ))
 }
-``` 
+```
 
 ---
 -->

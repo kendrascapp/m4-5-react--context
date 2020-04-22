@@ -112,7 +112,7 @@ export const UserContext = React.createContext(null);
 
 const App = () => {
   return (
-    <UserContext.Provider value={{ username: 'Alfalfa' }}>
+    <UserContext.Provider value={{ username: "Alfalfa" }}>
       <Header />
       <Main>
         <YourAppHere />
@@ -129,7 +129,7 @@ const App = () => {
 Next, we can _consume_ that context anywhere below the Provider with `useContext`.
 
 ```js
-import { UserContext } from '../App';
+import { UserContext } from "../App";
 
 const Profile = () => {
   const data = React.useContext(UserContext);
@@ -191,23 +191,87 @@ const Navigation = ({ user, setUser }) => {
     </nav>
   );
 };
-```
+
+ ------------
+
+export const UserContext = createContext(null);
+
+const App = () => {
+  const [
+    user,
+    setUser
+    ] = React.useState({ username: 'Alfalfa' });
+
+  return (
+    <UserContext.Provider value={{
+      user,
+      setUser
+    }}>
+  <Home />
+  </UserContext.Provider>
+  )
+
+const Home = () => {
+  return (
+    <>
+      <Header />
+      <MainContent />
+    </>
+  );
+};
+
+const Header = () => {
+  return (
+    <header>
+      <Navigation />
+    </header>
+  );
+};
+
+const Navigation = () => {
+  const { user, setUser } = useContext(UserContect);
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        {user && (
+          <li>
+            <button onClick={() => setUser(null)}>Log out</button>
+          </li>
+        )}
+      </ul>
+    </nav>
+  );
+};
 
 ---
 
-```jsx
+jsx
+
+export const DialogContext = createContext(null);
+
 const App = () => {
   const [dialog, setDialog] = React.useState(null);
 
   return (
     <>
-      <MainContent dialog={dialog} setDialog={setDialog} />
-      <Dialog currentDialog={dialog} />
-    </>
-  );
-};
+    <DiaologContext.Provider value= {{
+      dialog,
+      setDialog
+    }}>
+      <MainContent />
+      <Dialog />
+      </DialogContext.Provider>
+  )
+}
 
-const MainContent = ({ dialog, setDialog }) => {
+const MainContent = () => {
+  const { setDiaolog } = useContext(DialogContext);
   return (
     <>
       <Sidebar>
@@ -220,7 +284,8 @@ const MainContent = ({ dialog, setDialog }) => {
   );
 };
 
-const Dialog = ({ currentDialog }) => {
+const Dialog = () => {
+  const currentDialog = useContext(DialogContext).dialog;
   if (!currentDialog) {
     return null;
   }
@@ -234,7 +299,7 @@ const Dialog = ({ currentDialog }) => {
 ```js live=true
 const App = () => {
   const [count, setCount] = React.useState(0);
-  const [name, setName] = React.useState('');
+  const [name, setName] = React.useState("");
 
   const increment = () => setCount(count + 1);
   const decrement = () => setCount(count - 1);
